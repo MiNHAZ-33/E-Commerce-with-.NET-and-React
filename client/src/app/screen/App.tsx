@@ -3,6 +3,7 @@ import Header from '../component/Header';
 import CssBaseline from '@mui/material/CssBaseline';
 import { Container, ThemeProvider, createTheme } from '@mui/material';
 import React from 'react';
+import { Outlet } from 'react-router-dom';
 
 function App() {
 
@@ -27,7 +28,7 @@ function App() {
       <CssBaseline/>
       <Header themeChangeHandler={themeChangeHandler} />
       <Container>
-        <Catalog />
+        <Outlet />
       </Container>
       
     </ThemeProvider>
