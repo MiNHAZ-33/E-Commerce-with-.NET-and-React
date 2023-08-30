@@ -1,6 +1,6 @@
-import { List, ListItem, ListItemAvatar, Avatar, ListItemText } from '@mui/material'
-import React from 'react'
+import { Grid } from '@mui/material'
 import { Product } from '../../models/products'
+import ProductCard from './ProductCard'
 
 interface Props{
     products: Product[]
@@ -8,17 +8,12 @@ interface Props{
 
 export const ProductList = (props: Props) => {
   return (
-    <List>
-    {props.products.map((product : Product) => (
-        <ListItem key={product.id}>
-            <ListItemAvatar>
-                <Avatar src={product.pictureUrl} />
-            </ListItemAvatar>
-            <ListItemText>
-        {product.name} - {product.price}
-            </ListItemText>
-        </ListItem>
+    <Grid container spacing={4}>
+          {props.products.map((product: Product) => (
+        <Grid  key={product.id} item xs={4}>
+            <ProductCard product={product}/>
+        </Grid>
 ))}
-  </List>
+  </Grid>
   )
 }
