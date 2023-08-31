@@ -1,5 +1,4 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Product } from "../../models/products";
 import {
@@ -12,6 +11,7 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
+import agent from "../../api/agent";
 
 export const ProductDetails = () => {
   const { id } = useParams<{ id: string }>();
@@ -19,17 +19,11 @@ export const ProductDetails = () => {
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:5000/api/product/${id}`)
-      .then((response) => {
-        setProduct(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+    id &&
+      agent.Catalog.details(parseInt(id))
+        .then((product) => setProduct(product))
+        .catch((error) => console.log(error))
+        .finally(() => setLoading(false));
   }, [id]);
 
   if (loading) {
