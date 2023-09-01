@@ -1,5 +1,6 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { toast } from "react-toastify";
+import { router } from "../router/Routes";
 
 axios.defaults.baseURL = "http://localhost:5000/api/";
 
@@ -8,8 +9,9 @@ const responseBody = (response: AxiosResponse) => response.data;
 axios.interceptors.response.use(response => {
     return response;
 }, (error: AxiosError) => {
-    console.log(error.response);
-    const { data, status } = error.response as AxiosResponse;
+    console.log(error.response ? error.response : error.message);
+    const { data , status } = error.response as AxiosResponse;
+    console.log(status)
     switch (status) {
         case 400:
             console.log(data);
@@ -32,7 +34,7 @@ axios.interceptors.response.use(response => {
             toast.error(data.title);
             break;
         case 500:
-            toast.error(data.title);
+            router.navigate('/server-error');
             break;
         default:
             break;

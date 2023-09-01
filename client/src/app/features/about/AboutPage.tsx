@@ -51,7 +51,12 @@ export const AboutPage = () => {
         >
           Test 404 Error
         </Button>
-        <Button variant="contained" onClick={validationError}>
+        <Button
+          variant="contained"
+          onClick={() =>
+            agent.TestErrors.get500Error().catch((error) => console.log(error))
+          }
+        >
           Test server Error
         </Button>
         <Button
