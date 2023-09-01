@@ -1,5 +1,5 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
-import exp from "constants";
+import { toast } from "react-toastify";
 
 axios.defaults.baseURL = "http://localhost:5000/api/";
 
@@ -8,7 +8,35 @@ const responseBody = (response: AxiosResponse) => response.data;
 axios.interceptors.response.use(response => {
     return response;
 }, (error: AxiosError) => {
-    console.log("Caught by intercepter");
+    console.log(error.response);
+    const { data, status } = error.response as AxiosResponse;
+    switch (status) {
+        case 400:
+            console.log(data);
+            if (data.errors) {
+                const modalStateErrors : string[] = [];
+                for (const key in data.errors) {
+                    if (data.errors[key]) {
+                        modalStateErrors.push(data.errors[key]);
+                    }
+                }
+                throw modalStateErrors.flat();
+            } else {
+            }
+            toast.error(data.title);
+            break;
+        case 401:
+            toast.error(data.title);
+            break;
+        case 404:
+            toast.error(data.title);
+            break;
+        case 500:
+            toast.error(data.title);
+            break;
+        default:
+            break;
+    }
     return Promise.reject(error.response);
 })
 
@@ -25,11 +53,11 @@ const Catalog = {
 }
 
 const TestErrors = {
-    get404Error: () => requests.get("BaseApi/not-found"),
-    get400Error: () => requests.get("BaseApi/bad-request"),
-    get500Error: () => requests.get("BaseApi/server-error"),
-    get401Error: () => requests.get("BaseApi/unauthorized"),
-    getValidationError: () => requests.post("BaseApi/validation-error", {})
+    get404Error: () => requests.get("Buggy/not-found"),
+    get400Error: () => requests.get("Buggy/bad-request"),
+    get500Error: () => requests.get("Buggy/server-error"),
+    get401Error: () => requests.get("Buggy/unauthorised"),
+    getValidationError: () => requests.get("Buggy/validation-error")
 }
 
 const agent = {
