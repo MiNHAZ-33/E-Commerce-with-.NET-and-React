@@ -13,6 +13,7 @@ import {
 } from "@mui/material";
 import agent from "../../api/agent";
 import NotFound from "../../errors/NotFound";
+import Loading from "../../component/Loading";
 
 export const ProductDetails = () => {
   const { id } = useParams<{ id: string }>();
@@ -28,7 +29,7 @@ export const ProductDetails = () => {
   }, [id]);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <Loading message="Loading Product ..." />;
   }
 
   if (!product) {
