@@ -12,6 +12,7 @@ import {
   Typography,
 } from "@mui/material";
 import agent from "../../api/agent";
+import NotFound from "../../errors/NotFound";
 
 export const ProductDetails = () => {
   const { id } = useParams<{ id: string }>();
@@ -31,7 +32,7 @@ export const ProductDetails = () => {
   }
 
   if (!product) {
-    return <div>Product not found</div>;
+    return <NotFound />;
   }
 
   return (
